@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify
 import openai
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 english_api_key = "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"
 english_model_name = "davinci:ft-personal-2023-09-01-13-31-52"
@@ -11,7 +13,7 @@ korean_model_name = "davinci:ft-personal-2023-09-02-15-55-41"
 
 conversation_history = []
 
-@app.route('/get_answer', methods=['POST'])
+@app.route('/gpt', methods=['POST'])
 def get_answer():
     data = request.get_json()
     prompt = data.get('prompt')
@@ -44,4 +46,4 @@ def get_answer():
     return jsonify({"answer": response.choices[0].text.strip()})
 
 if __name__ == '__main__':
-    app.run(port=5003)
+    app.run(host='0.0.0.0', port=5003)
